@@ -2,6 +2,9 @@
 package de.fhb.twitzbotz;
 
 import de.fhb.twitzbotz.controller.TBController;
+import de.fhb.twitzbotz.helper.LoadPropsHelper;
+import de.fhb.twitzbotz.helper.TwitterConnectHelper;
+import java.util.logging.Level;
 
 /**
  *
@@ -16,10 +19,23 @@ public class TwitzBotz {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		System.out.println("hello world!");
+		try {
 		
-		TBController tbController = new TBController();
+			java.util.logging.Logger.getLogger(TBController.class.getName()).setLevel(Level.OFF);
+			java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).setLevel(Level.OFF);
+			java.util.logging.Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.OFF);
+
+			LoadPropsHelper propsHelper = new LoadPropsHelper();
+			propsHelper.loadAllProps();
+
+
+			TBController tbController = new TBController(propsHelper.getFunnyTexts());
+
+			tbController.checkTwitter();
+		} catch (Exception e) {
+			java.util.logging.Logger.getLogger(TwitzBotz.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+		}
 		
-		tbController.testController();
 	}
+	
 }

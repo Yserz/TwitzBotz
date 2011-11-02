@@ -5,6 +5,7 @@ import de.fhb.twitzbotz.controller.TBController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -28,12 +29,16 @@ public class TwitterConnectHelper {
 	private final String tokenSecret = "2W6d3aNWLYTLcxWCsXDoBesDsiJADh7B0iWxERa9AnU";
 
 	public TwitterConnectHelper() {
+		describeEnviroment();
+		
 		twitterFactory = new TwitterFactory();
 	}
 	/**
 	 * Verbindungsaufbau zu Twitter mit beliebigem Account-Token(mit PIN-Eingabe).
 	 */
 	public Twitter connectToServiceWithPIN() throws TwitterException, IOException{
+		describeEnviroment();
+		
 		RequestToken requestToken = null;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -71,21 +76,29 @@ public class TwitterConnectHelper {
 	 * Verbindungsaufbau zu Twitter mit hardcodet access Tokens.
 	 */
 	public Twitter connectToServiceSingleAcc() {
+		describeEnviroment();
+				
 		Twitter twitterService = twitterFactory.getInstance();
 
 		AccessToken givenAccessToken = new AccessToken(token, tokenSecret);
 		twitterService.setOAuthConsumer(consumerKey, consumerKeySecure);
 		twitterService.setOAuthAccessToken(givenAccessToken);
 
+		
 		return twitterService;
 	}
 
 	private void storeAccessToken(AccessToken accessToken) throws TwitterException {
+		describeEnviroment();
+		
 		System.out.println("Screenname: " + accessToken.getScreenName());
 		System.out.println("UserID-AT: " + accessToken.getUserId());
 		System.out.println("AToken: " + accessToken.getToken());
 		System.out.println("ATokenSecret: " + accessToken.getTokenSecret());
 	}
 	
-	
+	private void describeEnviroment() {
+		StackTraceElement stackTop = new Exception().getStackTrace()[1];
+		java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
+	}
 }
