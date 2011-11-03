@@ -97,17 +97,33 @@ public class TwitterConnectHelper {
 		StackTraceElement stackTop = new Exception().getStackTrace()[1];
 		java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
 	}
-	private void handleTwitterException(TwitterException ex){
+	//TODO dont repeat yourself but no good idea how to fix ;D
+	public void handleTwitterException(TwitterException ex){
 		describeEnviroment();
 		if (400 == ex.getStatusCode()) {
-				System.err.println("Rate limit exceeded. Clients may not make more than "+ex.getRateLimitStatus().getHourlyLimit()+" requests per hour. \nThe next reset is "+ex.getRateLimitStatus().getResetTime());
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-			} else if(-1 == ex.getStatusCode()){
-				System.err.println("Can not connect to the internet or the host is down.");
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-			} else{
-				System.err.println("Unknown twitter-error occured.");
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-			}
+			System.err.println("Rate limit exceeded. Clients may not make more than "+ex.getRateLimitStatus().getHourlyLimit()+" requests per hour. \nThe next reset is "+ex.getRateLimitStatus().getResetTime());
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} else if(401 == ex.getStatusCode()){
+			System.err.println("Authentication credentials were missing or incorrect.");
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} else if(404 == ex.getStatusCode()){
+			System.err.println("The URI requested is invalid or the resource requested, such as a user, does not exists.");
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} else if(500 == ex.getStatusCode()){
+			System.err.println("Something is broken. Please post to the group so the Twitter team can investigate.");
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} else if(502 == ex.getStatusCode()){
+			System.err.println("Twitter is down or being upgraded.");
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} else if(503 == ex.getStatusCode()){
+			System.err.println("The Twitter servers are up, but overloaded with requests. Try again later.");
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} else if(-1 == ex.getStatusCode()){
+			System.err.println("Can not connect to the internet or the host is down.");
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} else{
+			System.err.println("Unknown twitter-error occured.");
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		}
 	}
 }

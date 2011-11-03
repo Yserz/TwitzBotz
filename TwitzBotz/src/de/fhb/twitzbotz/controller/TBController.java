@@ -19,6 +19,7 @@ public class TBController {
 
 	private Twitter twitterService = null;
 	private Status lastStatus = null;
+	private TwitterConnectHelper twitterConnectHelper;
 	
 
 	/**
@@ -29,9 +30,9 @@ public class TBController {
 	public TBController() {
 		describeEnviroment();
 		
-		
+		twitterConnectHelper = new TwitterConnectHelper();
 		//Verbindungsaufbau mit hardcodet Account(keine PIN-Eingabe)
-		twitterService = new TwitterConnectHelper().connectToServiceSingleAcc();
+		twitterService = twitterConnectHelper.connectToServiceSingleAcc();
 
 	}
 
@@ -49,7 +50,7 @@ public class TBController {
 			statuses = twitterService.getHomeTimeline();
 
 		} catch (TwitterException ex) {
-			handleTwitterException(ex);
+			twitterConnectHelper.handleTwitterException(ex);
 		}
 
 
@@ -69,7 +70,7 @@ public class TBController {
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "latestStatus: {0}, \nlatestStatusRaw: {1}", new Object[]{userStatus.getText(), userStatus});
 
 		} catch (TwitterException ex) {
-			handleTwitterException(ex);
+			twitterConnectHelper.handleTwitterException(ex);
 		}
 		return userStatus;
 	}
@@ -87,7 +88,7 @@ public class TBController {
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "User: {0}", userTimeline);
 
 		} catch (TwitterException ex) {
-			handleTwitterException(ex);
+			twitterConnectHelper.handleTwitterException(ex);
 		}
 		return userTimeline;
 	}
@@ -98,7 +99,7 @@ public class TBController {
 			lastStatus = twitterService.updateStatus(message);
 			System.out.println("Updated Status successfully to " + lastStatus.getText());
 		} catch (TwitterException ex) {
-			handleTwitterException(ex);
+			twitterConnectHelper.handleTwitterException(ex);
 		}
 	}
 
@@ -109,7 +110,7 @@ public class TBController {
 			userID = twitterService.showUser(user).getId();
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "ID: {0}", userID);
 		} catch (TwitterException ex) {
-			handleTwitterException(ex);
+			twitterConnectHelper.handleTwitterException(ex);
 		}
 		return userID;
 	}
@@ -120,7 +121,7 @@ public class TBController {
 			userID = twitterService.getId();
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "MyID: {0}", userID);
 		} catch (TwitterException ex) {
-			handleTwitterException(ex);
+			twitterConnectHelper.handleTwitterException(ex);
 		}
 		return userID;
 	}
@@ -129,17 +130,5 @@ public class TBController {
 		StackTraceElement stackTop = new Exception().getStackTrace()[1];
 		java.util.logging.Logger.getLogger(TBController.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
 	}
-	private void handleTwitterException(TwitterException ex){
-		describeEnviroment();
-		if (400 == ex.getStatusCode()) {
-				System.err.println("Rate limit exceeded. Clients may not make more than "+ex.getRateLimitStatus().getHourlyLimit()+" requests per hour. \nThe next reset is "+ex.getRateLimitStatus().getResetTime());
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-			} else if(-1 == ex.getStatusCode()){
-				System.err.println("Can not connect to the internet or the host is down.");
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-			} else{
-				System.err.println("Unknown twitter-error occured.");
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-			}
-	}
+	
 }
