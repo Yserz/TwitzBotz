@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.fhb.twitzbotz;
+package de.fhb.twitzbotz.controller;
 
 import de.fhb.twitzbotz.controller.TBController;
 import java.util.HashMap;

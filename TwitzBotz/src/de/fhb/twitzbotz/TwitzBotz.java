@@ -1,6 +1,7 @@
 
 package de.fhb.twitzbotz;
 
+import de.fhb.twitzbotz.controller.IdleThread;
 import de.fhb.twitzbotz.controller.TBController;
 import de.fhb.twitzbotz.helper.LoadPropsHelper;
 import de.fhb.twitzbotz.helper.TwitterConnectHelper;
