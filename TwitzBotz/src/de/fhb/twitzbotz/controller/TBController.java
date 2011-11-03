@@ -1,7 +1,6 @@
 package de.fhb.twitzbotz.controller;
 
 import de.fhb.twitzbotz.helper.TwitterConnectHelper;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import twitter4j.Status;
@@ -20,69 +19,20 @@ public class TBController {
 
 	private Twitter twitterService = null;
 	private Status lastStatus = null;
-	HashMap<String, String> funnyTexts = null;
+	
 
 	/**
 	 * Default-Konstruktor
 	 * 
 	 * nebst initialisierung des Objektes wird das Verbinden zum Service angestoßen.
 	 */
-	public TBController(HashMap<String, String> _funnyTexts) {
+	public TBController() {
 		describeEnviroment();
 
-		this.funnyTexts = _funnyTexts;
+		
 		//Verbindungsaufbau mit hardcodet Account(keine PIN-Eingabe)
 		twitterService = new TwitterConnectHelper().connectToServiceSingleAcc();
 
-	}
-
-	public void checkTwitter(){
-		describeEnviroment();
-		String lastText = "";
-		String antwort = "";
-		String aktStatus = "";
-		//TODO Sleeptimer weil maximal 350 requests/stunde(~1/10s) moeglich(Anmerkung: bissi zeit lassen fuer sonstige requests)
-		do {
-			System.out.println("Checking!");
-			aktStatus = getUsersLatestStatus("TwitBot2").getText();
-			
-			if(!aktStatus.equalsIgnoreCase(lastText)){
-				lastText = aktStatus;
-				
-				
-				antwort = funnyTexts.get(aktStatus);
-				if(antwort != null){
-
-					System.out.println("!!!!!!!!!!!!!!Hallo Du!!!!!!!!!!!!!!!!!!");
-					//sendMessage(antwort);
-				}
-			}
-			
-		} while (1 == 1);
-	}
-
-	public void testController() {
-		describeEnviroment();
-
-		/*
-		System.out.println("Showing your timeline.\n");
-		for (Status status : getMyTimeline()) {
-		System.out.println(status.getId() + " <" + status.getUser().getName() + "> : " + status.getText());
-		}
-		
-		
-		try {
-		System.out.println("Status: " + twitterService.showStatus(new Long(131785411528896514L)).getUser());
-		} catch (TwitterException ex) {
-		java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
-		 * 
-		 * 
-		 */
-		sendMessage("Jetzt kann man sogar Userspezifisch auslesen!");
-		System.out.println(getUsersLatestStatus("TwitBot2").getText());
-		sendMessage("Set dürfte jetzt hier spezifisch sein.");
-		System.out.println(getUsersLatestStatus("TwitBot2").getText());
 	}
 
 	/**
@@ -118,7 +68,7 @@ public class TBController {
 		Status userStatus = null;
 		try {
 			userStatus = twitterService.showUser(userID).getStatus();
-			System.out.println("latestStatus: " + userStatus);
+			System.out.println("latestStatus: " + userStatus.getText());
 
 		} catch (TwitterException ex) {
 			handleTwitterException(ex);

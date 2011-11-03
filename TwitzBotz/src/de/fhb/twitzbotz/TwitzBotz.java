@@ -23,15 +23,17 @@ public class TwitzBotz {
 		
 			java.util.logging.Logger.getLogger(TBController.class.getName()).setLevel(Level.OFF);
 			java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).setLevel(Level.OFF);
-			java.util.logging.Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.OFF);
+			java.util.logging.Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.ALL);
 
 			LoadPropsHelper propsHelper = new LoadPropsHelper();
 			propsHelper.loadAllProps();
 
 
-			TBController tbController = new TBController(propsHelper.getFunnyTexts());
+			TBController tbController = new TBController();
 
-			tbController.checkTwitter();
+			IdleThread thread = new IdleThread(tbController,propsHelper.getFunnyTexts());
+			
+			thread.start();
 		} catch (Exception e) {
 			java.util.logging.Logger.getLogger(TwitzBotz.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
 		}

@@ -58,7 +58,7 @@ public class LoadPropsHelper {
 		
 		FileInputStream stream = null;
 		try {
-			stream = new FileInputStream("src/twitzbotz.properties");
+			stream = new FileInputStream("twitzbotz.properties");
 			props.load(stream);
 		} finally {
 			choosenLanguage = props.getProperty("LANG", "DE");
@@ -73,9 +73,7 @@ public class LoadPropsHelper {
 	private void loadLang() throws FileNotFoundException, IOException{
 		describeEnviroment();
 		
-		System.out.println("lang: "+choosenLanguage);
-		
-		props.load(new FileInputStream(("src/languages/DE.properties")));
+		props.load(new FileInputStream("languages/DE.properties"));
 		Set<Object> keys = props.keySet();
 		for (Object key : keys) {
 			funnyTexts.put(key.toString(), props.get(key).toString());
