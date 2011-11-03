@@ -5,7 +5,10 @@ import de.fhb.twitzbotz.controller.IdleThread;
 import de.fhb.twitzbotz.controller.TBController;
 import de.fhb.twitzbotz.helper.LoadPropsHelper;
 import de.fhb.twitzbotz.helper.TwitterConnectHelper;
+import java.util.Date;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *	TwitzBotz
@@ -34,11 +37,20 @@ public class TwitzBotz {
 		String botAccount = "@TwitBot2";
 		
 		try {
+			
+			FileHandler fh = new FileHandler("log/log_"+new Date()+".xml");
 		
-			java.util.logging.Logger.getLogger(TBController.class.getName()).setLevel(Level.OFF);
-			java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).setLevel(Level.OFF);
-			java.util.logging.Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.OFF);
-			java.util.logging.Logger.getLogger(IdleThread.class.getName()).setLevel(Level.OFF);
+			Logger.getLogger(TBController.class.getName()).setLevel(Level.INFO);
+			Logger.getLogger(TBController.class.getName()).addHandler(fh);
+			
+			Logger.getLogger(TwitterConnectHelper.class.getName()).setLevel(Level.SEVERE);
+			Logger.getLogger(TwitterConnectHelper.class.getName()).addHandler(fh);
+			
+			Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.SEVERE);
+			Logger.getLogger(LoadPropsHelper.class.getName()).addHandler(fh);
+			
+			Logger.getLogger(IdleThread.class.getName()).setLevel(Level.SEVERE);
+			Logger.getLogger(IdleThread.class.getName()).addHandler(fh);
 			
 			TBController tbController = new TBController();
 			LoadPropsHelper propsHelper = new LoadPropsHelper();

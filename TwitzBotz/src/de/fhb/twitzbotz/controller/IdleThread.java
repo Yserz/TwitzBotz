@@ -25,7 +25,7 @@ public class IdleThread extends Thread {
 	private int sleeptimerCount = 0;
 	
 	public IdleThread(TBController tbController,String botAccount, HashMap<String, String> funnyTexts, String userToListen){
-		describeEnviroment();
+		
 		this.tbController = tbController;
 		this.funnyTexts = funnyTexts;
 		this.userToListen = userToListen;
@@ -34,7 +34,7 @@ public class IdleThread extends Thread {
 	}
 	@Override
 	public void run() {
-		describeEnviroment();
+		
 		int globalCount = 0;
 		String lastStatus = "";
 		sleeptimerCount = 0;
@@ -64,11 +64,11 @@ public class IdleThread extends Thread {
 		} while (true);
     }
 	private long systemTime(){
-		describeEnviroment();
+		
 		return new Date().getTime();
 	}
 	private void threadSleep(long sleeptime){
-		describeEnviroment();
+		
 		try {
 			//327 Requests/Stunde -> max. 350 Requests/Stunde
 			sleep(sleeptime);
@@ -79,7 +79,7 @@ public class IdleThread extends Thread {
 	}
 
 	private void sendAnswerToListenedUser(String aktStatusText) {
-		describeEnviroment();
+		
 		String antwort = "";
 		antwort = funnyTexts.get(aktStatusText);
 					
@@ -106,7 +106,7 @@ public class IdleThread extends Thread {
 	 * @return lastStatus written by userToListen(may changed)
 	 */
 	private String checkIfUserSpeaksWithMe(Status aktStatus, String lastStatus) {
-		describeEnviroment();
+		
 		String aktStatusText = "";
 		
 		Logger.getLogger(IdleThread.class.getName()).log(Level.INFO, "aktStatusReplyID = {0}, \nMyID = {1}", new Object[]{aktStatus.getInReplyToUserId(), myID});
@@ -128,9 +128,5 @@ public class IdleThread extends Thread {
 			System.out.println("Noone's speaking with me :/");
 		}
 		return lastStatus;
-	}
-	private void describeEnviroment() {
-		StackTraceElement stackTop = new Exception().getStackTrace()[1];
-		java.util.logging.Logger.getLogger(TBController.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
 	}
 }

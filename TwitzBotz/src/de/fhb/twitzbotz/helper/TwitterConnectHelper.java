@@ -29,7 +29,7 @@ public class TwitterConnectHelper {
 	private final String tokenSecret = "2W6d3aNWLYTLcxWCsXDoBesDsiJADh7B0iWxERa9AnU";
 
 	public TwitterConnectHelper() {
-		describeEnviroment();
+		
 		
 		twitterFactory = new TwitterFactory();
 	}
@@ -37,7 +37,7 @@ public class TwitterConnectHelper {
 	 * Verbindungsaufbau zu Twitter mit beliebigem Account-Token(mit PIN-Eingabe).
 	 */
 	public Twitter connectToServiceWithPIN() throws TwitterException, IOException{
-		describeEnviroment();
+		
 		
 		RequestToken requestToken = null;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -72,7 +72,7 @@ public class TwitterConnectHelper {
 	 * Verbindungsaufbau zu Twitter mit hardcodet access Tokens.
 	 */
 	public Twitter connectToServiceSingleAcc() {
-		describeEnviroment();
+		
 				
 		Twitter twitterService = twitterFactory.getInstance();
 
@@ -85,21 +85,15 @@ public class TwitterConnectHelper {
 	}
 
 	private void storeAccessToken(AccessToken accessToken) throws TwitterException {
-		describeEnviroment();
+		
 		
 		System.out.println("Screenname: " + accessToken.getScreenName());
 		System.out.println("UserID-AT: " + accessToken.getUserId());
 		System.out.println("AToken: " + accessToken.getToken());
 		System.out.println("ATokenSecret: " + accessToken.getTokenSecret());
 	}
-	
-	private void describeEnviroment() {
-		StackTraceElement stackTop = new Exception().getStackTrace()[1];
-		java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
-	}
-	//TODO dont repeat yourself but no good idea how to fix ;D
 	public void handleTwitterException(TwitterException ex){
-		describeEnviroment();
+		
 		if (400 == ex.getStatusCode()) {
 			System.err.println("Rate limit exceeded. Clients may not make more than "+ex.getRateLimitStatus().getHourlyLimit()+" requests per hour. \nThe next reset is "+ex.getRateLimitStatus().getResetTime());
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

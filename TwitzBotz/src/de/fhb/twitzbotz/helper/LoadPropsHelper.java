@@ -26,7 +26,7 @@ public class LoadPropsHelper {
 	
 
 	public LoadPropsHelper() {
-		describeEnviroment();
+		
 		
 		props = new Properties();
 		funnyTexts = new HashMap<String, String>();
@@ -34,7 +34,7 @@ public class LoadPropsHelper {
 		
 	}
 	public void loadAllProps(){
-		describeEnviroment();
+		
 		
 		try {
 			loadProp();
@@ -53,7 +53,7 @@ public class LoadPropsHelper {
 	 * @throws NumberFormatException failed to format string into integer
 	 */
 	private void loadProp() throws IOException{
-		describeEnviroment();
+		
 		
 		FileInputStream stream = null;
 		try {
@@ -70,17 +70,13 @@ public class LoadPropsHelper {
 	 * @throws IOException input output failure
 	 */
 	private void loadLang() throws FileNotFoundException, IOException{
-		describeEnviroment();
+		
 		
 		props.load(new FileInputStream("languages/DE.properties"));
 		Set<Object> keys = props.keySet();
 		for (Object key : keys) {
 			funnyTexts.put(key.toString(), props.get(key).toString());
 		}
-	}
-	private void describeEnviroment() {
-		StackTraceElement stackTop = new Exception().getStackTrace()[1];
-		java.util.logging.Logger.getLogger(LoadPropsHelper.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
 	}
 	
 	public HashMap<String, String> getFunnyTexts() {

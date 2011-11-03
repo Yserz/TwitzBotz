@@ -27,7 +27,7 @@ public class TBController {
 	 * nebst initialisierung des Objektes wird das Verbinden zum Service angestoßen.
 	 */
 	public TBController() {
-		describeEnviroment();
+		
 		
 		twitterConnectHelper = new TwitterConnectHelper();
 		//Verbindungsaufbau mit hardcodet Account(keine PIN-Eingabe)
@@ -41,7 +41,7 @@ public class TBController {
 	 * @return TweetList
 	 */
 	public List<Status> getMyTimeline() {
-		describeEnviroment();
+		
 
 		List<Status> statuses = null;
 		try {
@@ -57,13 +57,13 @@ public class TBController {
 	}
 
 	public Status getUsersLatestStatus(String user) {
-		describeEnviroment();
+		
 		
 		return getUsersLatestStatus(this.getUsersID(user));
 	}
 
 	public Status getUsersLatestStatus(long userID) {
-		describeEnviroment();
+		
 		
 		Status userStatus = null;
 		try {
@@ -77,13 +77,13 @@ public class TBController {
 	}
 
 	public List<Status> getUsersTimeline(String user) {
-		describeEnviroment();
+		
 		
 		return getUsersTimeline(this.getUsersID(user));
 	}
 
 	public List<Status> getUsersTimeline(long userID) {
-		describeEnviroment();
+		
 		
 		List<Status> userTimeline = null;
 		try {
@@ -97,7 +97,7 @@ public class TBController {
 	}
 
 	public void sendMessage(String message) {
-		describeEnviroment();
+		
 		
 		Status lastStatus = null;
 		try {
@@ -109,7 +109,7 @@ public class TBController {
 	}
 
 	public long getUsersID(String user) {
-		describeEnviroment();
+		
 		
 		long userID = -1;
 		try {
@@ -121,7 +121,7 @@ public class TBController {
 		return userID;
 	}
 	public long getMyID() {
-		describeEnviroment();
+		
 		
 		long userID = -1;
 		try {
@@ -133,9 +133,5 @@ public class TBController {
 		return userID;
 	}
 
-	private void describeEnviroment() {
-		StackTraceElement stackTop = new Exception().getStackTrace()[1];
-		java.util.logging.Logger.getLogger(TBController.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
-	}
 	
 }
