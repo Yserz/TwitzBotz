@@ -18,7 +18,6 @@ import twitter4j.Twitter;
 public class TBController {
 
 	private Twitter twitterService = null;
-	private Status lastStatus = null;
 	private TwitterConnectHelper twitterConnectHelper;
 	
 
@@ -59,11 +58,13 @@ public class TBController {
 
 	public Status getUsersLatestStatus(String user) {
 		describeEnviroment();
+		
 		return getUsersLatestStatus(this.getUsersID(user));
 	}
 
 	public Status getUsersLatestStatus(long userID) {
 		describeEnviroment();
+		
 		Status userStatus = null;
 		try {
 			userStatus = twitterService.showUser(userID).getStatus();
@@ -77,11 +78,13 @@ public class TBController {
 
 	public List<Status> getUsersTimeline(String user) {
 		describeEnviroment();
+		
 		return getUsersTimeline(this.getUsersID(user));
 	}
 
 	public List<Status> getUsersTimeline(long userID) {
 		describeEnviroment();
+		
 		List<Status> userTimeline = null;
 		try {
 			userTimeline = twitterService.getUserTimeline(userID);
@@ -95,6 +98,8 @@ public class TBController {
 
 	public void sendMessage(String message) {
 		describeEnviroment();
+		
+		Status lastStatus = null;
 		try {
 			lastStatus = twitterService.updateStatus(message);
 			System.out.println("Updated Status successfully to " + lastStatus.getText());
@@ -105,6 +110,7 @@ public class TBController {
 
 	public long getUsersID(String user) {
 		describeEnviroment();
+		
 		long userID = -1;
 		try {
 			userID = twitterService.showUser(user).getId();
@@ -116,6 +122,7 @@ public class TBController {
 	}
 	public long getMyID() {
 		describeEnviroment();
+		
 		long userID = -1;
 		try {
 			userID = twitterService.getId();
