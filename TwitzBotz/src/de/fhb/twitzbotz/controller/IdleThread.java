@@ -8,6 +8,7 @@ import de.fhb.twitzbotz.controller.TBController;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import twitter4j.Status;
 
 /**
  *
@@ -17,36 +18,48 @@ public class IdleThread extends Thread {
 	private TBController tbController = null;
 	private HashMap<String, String> funnyTexts = null;
 	private String userToListen = "";
+	private long myID = -1;
 	
 	public IdleThread(TBController tbController, HashMap<String, String> funnyTexts, String userToListen){
 		this.tbController = tbController;
 		this.funnyTexts = funnyTexts;
 		this.userToListen = userToListen;
+		this.myID = tbController.getMyID();
 	}
 	@Override
 	public void run() {
 		String lastText = "";
 		String antwort = "";
-		String aktStatus = "";
-		long userID = tbController.getUsersID(userToListen);
+		String aktStatusText = "";
+		Status aktStatus = null;
+		long listenedUserID = tbController.getUsersID(userToListen);
+		
 		int count = 0;
 		
 		do {
 			count++;
 			System.out.println("Checking! "+count);
-			aktStatus = tbController.getUsersLatestStatus(userID).getText().replaceAll(" ", "_");
+			aktStatus = tbController.getUsersLatestStatus(listenedUserID);
 			
-			//Sperre, dass er nicht immer wieder das selbe posted, obwohl nichts neues geposted wurde
-			if(!aktStatus.equalsIgnoreCase(lastText)){
-				lastText = aktStatus;
+			Logger.getLogger(IdleThread.class.getName()).log(Level.INFO, "aktStatusReplyID = {0}, \nMyID = {1}", new Object[]{aktStatus.getInReplyToUserId(), myID});
+			if (aktStatus.getInReplyToUserId()==myID) {
+				aktStatusText = aktStatus.getText().replaceAll(" ", "_");
 				
-				
-				antwort = funnyTexts.get(aktStatus);
-				System.out.println("Antwort: "+"@"+userToListen+" "+antwort);
-				if(antwort != null){
-					tbController.sendMessage("@"+userToListen+" "+antwort);
+				//Sperre, dass er nicht immer wieder das selbe posted, obwohl nichts neues geposted wurde
+				if(!aktStatusText.equalsIgnoreCase(lastText)){
+					lastText = aktStatusText;
+
+
+					antwort = funnyTexts.get(aktStatusText);
+					
+					if(antwort != null){
+						System.out.println("Antwort: "+"@"+userToListen+" "+antwort);
+						tbController.sendMessage("@"+userToListen+" "+antwort);
+					}
 				}
+				
 			}
+			
 			try {
 				//327 Requests/Stunde -> max. 350 Requests/Stunde
 				sleep(11000L);

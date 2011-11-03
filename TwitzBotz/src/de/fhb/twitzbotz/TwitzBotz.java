@@ -24,7 +24,7 @@ public class TwitzBotz {
 	public static void main(String[] args) {
 		try {
 		
-			java.util.logging.Logger.getLogger(TBController.class.getName()).setLevel(Level.SEVERE);
+			java.util.logging.Logger.getLogger(TBController.class.getName()).setLevel(Level.INFO);
 			java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).setLevel(Level.SEVERE);
 			java.util.logging.Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.SEVERE);
 

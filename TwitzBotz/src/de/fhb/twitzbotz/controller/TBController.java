@@ -68,7 +68,7 @@ public class TBController {
 		Status userStatus = null;
 		try {
 			userStatus = twitterService.showUser(userID).getStatus();
-			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "latestStatus: {0}", userStatus.getText());
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "latestStatus: {0}, \nlatestStatusRaw: {1}", new Object[]{userStatus.getText(), userStatus});
 
 		} catch (TwitterException ex) {
 			handleTwitterException(ex);
@@ -110,6 +110,17 @@ public class TBController {
 		try {
 			userID = twitterService.showUser(user).getId();
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "ID: {0}", userID);
+		} catch (TwitterException ex) {
+			handleTwitterException(ex);
+		}
+		return userID;
+	}
+	public long getMyID() {
+		describeEnviroment();
+		long userID = -1;
+		try {
+			userID = twitterService.getId();
+			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.INFO, "MyID: {0}", userID);
 		} catch (TwitterException ex) {
 			handleTwitterException(ex);
 		}
