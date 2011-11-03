@@ -41,7 +41,7 @@ public class TwitzBotz {
 			
 			if (args.length < 1) {
 				System.out.println("UserToListen: TwitBot2");
-				thread = new IdleThread(tbController,propsHelper.getFunnyTexts(), "zeruby");
+				thread = new IdleThread(tbController,propsHelper.getFunnyTexts(), "TwitBot2");
 				thread.start();
 			}else{
 				System.out.println("UserToListen: "+ args[0]);

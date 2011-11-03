@@ -46,7 +46,7 @@ public class IdleThread extends Thread {
 			if (aktStatus.getInReplyToUserId()==myID) {
 				aktStatusText = aktStatus.getText().replaceAll(" ", "_").toLowerCase().replaceAll("@twitbot2_", "");
 				
-				
+				System.out.println("AktStatusText:     "+aktStatusText);
 				//Sperre, dass er nicht immer wieder das selbe posted, obwohl nichts neues geposted wurde
 				if(!aktStatusText.equalsIgnoreCase(lastText)){
 					lastText = aktStatusText;
