@@ -5,6 +5,7 @@
 package de.fhb.twitzbotz.controller;
 
 import de.fhb.twitzbotz.controller.TBController;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,8 @@ public class IdleThread extends Thread {
 			
 			Logger.getLogger(IdleThread.class.getName()).log(Level.INFO, "aktStatusReplyID = {0}, \nMyID = {1}", new Object[]{aktStatus.getInReplyToUserId(), myID});
 			if (aktStatus.getInReplyToUserId()==myID) {
-				aktStatusText = aktStatus.getText().replaceAll(" ", "_");
+				aktStatusText = aktStatus.getText().replaceAll(" ", "_").toLowerCase().replaceAll("@twitbot2_", "");
+				
 				
 				//Sperre, dass er nicht immer wieder das selbe posted, obwohl nichts neues geposted wurde
 				if(!aktStatusText.equalsIgnoreCase(lastText)){
@@ -53,8 +55,15 @@ public class IdleThread extends Thread {
 					antwort = funnyTexts.get(aktStatusText);
 					
 					if(antwort != null){
-						System.out.println("Antwort: "+"@"+userToListen+" "+antwort);
-						tbController.sendMessage("@"+userToListen+" "+antwort);
+						if(!antwort.equals("1970")){
+							
+							System.out.println("Antwort: "+"@"+userToListen+" "+antwort);
+							tbController.sendMessage("@"+userToListen+" "+antwort);
+						}else{
+							//the milliseconds since January 1, 1970, 00:00:00 GMT.
+							tbController.sendMessage("@"+userToListen+" "+systemTime()+" (the milliseconds since January 1, 1970, 00:00:00 GMT.)");
+						}
+						
 					}
 				}
 				
@@ -69,4 +78,7 @@ public class IdleThread extends Thread {
 			
 		} while (true);
     }
+	private long systemTime(){
+		return new Date().getTime();
+	}
 }
