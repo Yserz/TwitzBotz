@@ -28,7 +28,7 @@ public class TBController {
 	 */
 	public TBController() {
 		describeEnviroment();
-
+		
 		
 		//Verbindungsaufbau mit hardcodet Account(keine PIN-Eingabe)
 		twitterService = new TwitterConnectHelper().connectToServiceSingleAcc();
@@ -50,8 +50,6 @@ public class TBController {
 
 		} catch (TwitterException ex) {
 			handleTwitterException(ex);
-		} catch (IllegalStateException ex) {
-			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 
 
@@ -140,6 +138,7 @@ public class TBController {
 				System.err.println("Can not connect to the internet or the host is down.");
 				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 			} else{
+				System.err.println("Unknown twitter-error occured.");
 				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 			}
 	}

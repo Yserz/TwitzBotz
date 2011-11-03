@@ -4,7 +4,6 @@
  */
 package de.fhb.twitzbotz.controller;
 
-import de.fhb.twitzbotz.controller.TBController;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -20,65 +19,118 @@ public class IdleThread extends Thread {
 	private HashMap<String, String> funnyTexts = null;
 	private String userToListen = "";
 	private long myID = -1;
+	private long shortSleeptime = 11000;
+	private long longSleeptime = 30000L;
+	private String botAccount = "";
+	private int sleeptimerCount = 0;
 	
-	public IdleThread(TBController tbController, HashMap<String, String> funnyTexts, String userToListen){
+	public IdleThread(TBController tbController,String botAccount, HashMap<String, String> funnyTexts, String userToListen){
+		describeEnviroment();
 		this.tbController = tbController;
 		this.funnyTexts = funnyTexts;
 		this.userToListen = userToListen;
 		this.myID = tbController.getMyID();
+		this.botAccount = botAccount.toLowerCase();
 	}
 	@Override
 	public void run() {
-		String lastText = "";
-		String antwort = "";
-		String aktStatusText = "";
+		describeEnviroment();
+		int globalCount = 0;
+		String lastStatus = "";
+		sleeptimerCount = 0;
+		
 		Status aktStatus = null;
 		long listenedUserID = tbController.getUsersID(userToListen);
 		
-		int count = 0;
+		
 		
 		do {
-			count++;
-			System.out.println("Checking! "+count);
+			sleeptimerCount++;
+			globalCount++;
+			System.out.println("\u001b[2J");
+			System.out.println("\n\nChecking! \nGlobalCount: "+globalCount+", \nSleeptimerCount: "+sleeptimerCount);
+			
 			aktStatus = tbController.getUsersLatestStatus(listenedUserID);
+			lastStatus = checkIfUserSpeaksWithMe(aktStatus, lastStatus);
 			
-			Logger.getLogger(IdleThread.class.getName()).log(Level.INFO, "aktStatusReplyID = {0}, \nMyID = {1}", new Object[]{aktStatus.getInReplyToUserId(), myID});
-			if (aktStatus.getInReplyToUserId()==myID) {
-				aktStatusText = aktStatus.getText().replaceAll(" ", "_").toLowerCase().replaceAll("@twitbot2_", "");
-				
-				System.out.println("AktStatusText:     "+aktStatusText);
-				//Sperre, dass er nicht immer wieder das selbe posted, obwohl nichts neues geposted wurde
-				if(!aktStatusText.equalsIgnoreCase(lastText)){
-					lastText = aktStatusText;
-
-
-					antwort = funnyTexts.get(aktStatusText);
-					
-					if(antwort != null){
-						if(!antwort.equals("1970")){
-							
-							System.out.println("Antwort: "+"@"+userToListen+" "+antwort);
-							tbController.sendMessage("@"+userToListen+" "+antwort);
-						}else{
-							//the milliseconds since January 1, 1970, 00:00:00 GMT.
-							tbController.sendMessage("@"+userToListen+" "+systemTime()+" (the milliseconds since January 1, 1970, 00:00:00 GMT.)");
-						}
-						
-					}
-				}
-				
+			if (sleeptimerCount>10) {
+				threadSleep(longSleeptime);
+			}else{
+				threadSleep(shortSleeptime);
 			}
 			
-			try {
-				//327 Requests/Stunde -> max. 350 Requests/Stunde
-				sleep(11000L);
-			} catch (InterruptedException ex) {
-				Logger.getLogger(IdleThread.class.getName()).log(Level.SEVERE, null, ex);
-			}
+			
 			
 		} while (true);
     }
 	private long systemTime(){
+		describeEnviroment();
 		return new Date().getTime();
+	}
+	private void threadSleep(long sleeptime){
+		describeEnviroment();
+		try {
+			//327 Requests/Stunde -> max. 350 Requests/Stunde
+			sleep(sleeptime);
+		} catch (InterruptedException ex) {
+			System.err.println("Unknown thread-error occured.");
+			Logger.getLogger(IdleThread.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	private void sendAnswerToListenedUser(String aktStatusText) {
+		describeEnviroment();
+		String antwort = "";
+		antwort = funnyTexts.get(aktStatusText);
+					
+		if(antwort != null){
+			sleeptimerCount = 0;
+			if(!antwort.equals("1970")){
+
+				System.out.println("Antwort: "+"@"+userToListen+" "+antwort);
+				tbController.sendMessage("@"+userToListen+" "+antwort);
+			}else{
+				//the milliseconds since January 1, 1970, 00:00:00 GMT.
+				tbController.sendMessage("@"+userToListen+" "+systemTime()+" (the milliseconds since January 1, 1970, 00:00:00 GMT.)");
+			}
+
+		}else{
+			System.out.println("no elequent response there :/");
+		}
+	}
+	/**
+	 * TODO sprechender name
+	 * 
+	 * @param aktStatus written by userToListen
+	 * @param lastStatus written by userToListen
+	 * @return lastStatus written by userToListen(may changed)
+	 */
+	private String checkIfUserSpeaksWithMe(Status aktStatus, String lastStatus) {
+		describeEnviroment();
+		String aktStatusText = "";
+		
+		Logger.getLogger(IdleThread.class.getName()).log(Level.INFO, "aktStatusReplyID = {0}, \nMyID = {1}", new Object[]{aktStatus.getInReplyToUserId(), myID});
+		if (aktStatus.getInReplyToUserId()==myID) {
+			aktStatusText = aktStatus.getText().replaceAll(" ", "_").toLowerCase();
+			aktStatusText = aktStatusText.replaceAll(botAccount+"_", "");
+
+			System.out.println("AktStatusText:     "+aktStatusText);
+			//Sperre, dass er nicht immer wieder das selbe posted, obwohl nichts neues geposted wurde
+			if(!aktStatusText.equalsIgnoreCase(lastStatus)){
+				lastStatus = aktStatusText;
+
+				sendAnswerToListenedUser(aktStatusText);
+			}else{
+				System.out.println("No new shit out there :/");
+			}
+
+		}else{
+			System.out.println("Noone's speaking with me :/");
+		}
+		return lastStatus;
+	}
+	private void describeEnviroment() {
+		StackTraceElement stackTop = new Exception().getStackTrace()[1];
+		java.util.logging.Logger.getLogger(TBController.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
 	}
 }

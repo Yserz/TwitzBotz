@@ -61,13 +61,9 @@ public class TwitterConnectHelper {
 			this.storeAccessToken(accessToken);
 
 		} catch (TwitterException te) {
-			if (401 == te.getStatusCode()) {
-				System.out.println("Unable to get the access token.");
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, te);
-			} else {
-				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, te);
-			}
+			handleTwitterException(te);
 		} catch (IOException ex) {
+			System.err.println("Unknown input-output-error occured.");
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 		return twitterService;
@@ -100,5 +96,18 @@ public class TwitterConnectHelper {
 	private void describeEnviroment() {
 		StackTraceElement stackTop = new Exception().getStackTrace()[1];
 		java.util.logging.Logger.getLogger(TwitterConnectHelper.class.getName()).log(Level.INFO, "Logger: class = {0},\n method: {1}", new Object[]{stackTop.getClassName(), stackTop.getMethodName()});
+	}
+	private void handleTwitterException(TwitterException ex){
+		describeEnviroment();
+		if (400 == ex.getStatusCode()) {
+				System.err.println("Rate limit exceeded. Clients may not make more than "+ex.getRateLimitStatus().getHourlyLimit()+" requests per hour. \nThe next reset is "+ex.getRateLimitStatus().getResetTime());
+				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			} else if(-1 == ex.getStatusCode()){
+				System.err.println("Can not connect to the internet or the host is down.");
+				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			} else{
+				System.err.println("Unknown twitter-error occured.");
+				java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			}
 	}
 }

@@ -40,8 +40,7 @@ public class LoadPropsHelper {
 			loadProp();
 			loadLang();
 		} catch (IOException ex) {
-			Logger.getLogger(LoadPropsHelper.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (NumberFormatException ex) {
+			System.err.println("Unknown input-output-error occured.");
 			Logger.getLogger(LoadPropsHelper.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
