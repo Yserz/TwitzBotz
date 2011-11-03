@@ -30,7 +30,8 @@ ctrl + c (Mac OS X)\
 Programm anpassen:\
 \
 Mit der "languages/de.properties" k\'f6nnen Sie den TwitBot auf Ihre Bed\'fcrfnisse anpassen.\
-tragen sie einfach die Frage und die Antwort in folgender form in das Dokument ein:\
+Tragen sie einfach die Frage und die Antwort in folgender form in das Dokument ein:\
+(Bitte beachten Sie, dass sie Leerzeichen mit _ ersetzen m\'fcssen)\
 \
 <frage>=<antwort>(enter)\
 <frage>=<antwort>(enter)\
