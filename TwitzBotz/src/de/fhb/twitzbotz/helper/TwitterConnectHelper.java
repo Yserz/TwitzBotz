@@ -5,7 +5,6 @@ import de.fhb.twitzbotz.controller.TBController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import twitter4j.FilterQuery;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -88,19 +87,11 @@ public class TwitterConnectHelper {
 		twitterService = twitterFactory.getInstance();
 		twitterStream = twitterStreamFactory.getInstance();
 
-		
-		
 		twitterService.setOAuthConsumer(consumerKey, consumerKeySecure);
 		twitterService.setOAuthAccessToken(givenAccessToken);
 		twitterStream.setOAuthConsumer(consumerKey, consumerKeySecure);
 		twitterStream.setOAuthAccessToken(givenAccessToken);
 		
-		
-		
-		
-		//twitterStream.user();
-		// sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
-		//twitterStream.sample();
 	}
 
 	private void storeAccessToken(AccessToken accessToken) throws TwitterException {

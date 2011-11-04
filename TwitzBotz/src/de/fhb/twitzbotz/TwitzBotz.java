@@ -56,11 +56,6 @@ public class TwitzBotz {
 			TBController tbController = new TBController(propsHelper.getFunnyTexts());
 			
 			
-			
-			
-			
-			IdleThread thread = null;
-			
 			if (args.length < 1) {
 				System.out.println("UserToListen: @TwitBot2");
 				tbController.startUserStream();
