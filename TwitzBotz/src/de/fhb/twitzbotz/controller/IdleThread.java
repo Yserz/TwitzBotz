@@ -11,8 +11,10 @@ import java.util.logging.Logger;
 import twitter4j.Status;
 
 /**
+ * Thread zum abfragen ob neue tweets geposted wurden.
+ * Sollte später ersetzt werden durch notificationService ->kein RateLimit 
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 public class IdleThread extends Thread {
 	private TBController tbController = null;
