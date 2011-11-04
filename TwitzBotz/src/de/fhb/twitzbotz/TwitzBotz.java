@@ -33,8 +33,6 @@ public class TwitzBotz {
 	 * @param args first param should be the user to listen to.
 	 */
 	public static void main(String[] args) {
-		String userToListenDefault = "TwitBot2";
-		String botAccount = "@TwitBot2";
 		
 		try {
 			
@@ -52,21 +50,23 @@ public class TwitzBotz {
 			Logger.getLogger(IdleThread.class.getName()).setLevel(Level.SEVERE);
 			Logger.getLogger(IdleThread.class.getName()).addHandler(fh);
 			
-			TBController tbController = new TBController();
 			LoadPropsHelper propsHelper = new LoadPropsHelper();
 			propsHelper.loadAllProps();
+			
+			TBController tbController = new TBController(propsHelper.getFunnyTexts());
+			
+			
+			
 			
 			
 			IdleThread thread = null;
 			
 			if (args.length < 1) {
-				System.out.println("UserToListen: "+userToListenDefault);
-				thread = new IdleThread(tbController, botAccount, propsHelper.getFunnyTexts(), userToListenDefault);
-				thread.start();
+				System.out.println("UserToListen: @TwitBot2");
+				tbController.startUserStream();
 			}else{
 				System.out.println("UserToListen: "+ args[0]);
-				thread = new IdleThread(tbController, botAccount, propsHelper.getFunnyTexts(), args[0]);
-				thread.start();
+				tbController.startUserStream(args[0]);
 			}
 
 			

@@ -12,8 +12,8 @@ import twitter4j.Status;
 
 /**
  * Thread zum abfragen ob neue tweets geposted wurden.
- * Sollte später ersetzt werden durch notificationService ->kein RateLimit 
- *
+ * *Deprecated*
+ * 
  * @author Michael Koppen
  */
 public class IdleThread extends Thread {

@@ -5,10 +5,12 @@ import de.fhb.twitzbotz.controller.TBController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
+import twitter4j.FilterQuery;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -18,7 +20,12 @@ import twitter4j.auth.RequestToken;
  */
 public class TwitterConnectHelper {
 	private AccessToken accessToken = null;
+	
 	private TwitterFactory twitterFactory = null;
+	private TwitterStreamFactory twitterStreamFactory = null;
+	
+	private Twitter twitterService = null;
+	private TwitterStream twitterStream = null;
 	
 	//Keys die die App identifizieren
 	private final String consumerKey = "XofYnF58nnR1fBIwGq3dQ";
@@ -28,21 +35,26 @@ public class TwitterConnectHelper {
 	private final String token = "403358935-CXqlVYe8nKLBm9buxU55vES9HSBdgG5fbCLfOo";
 	private final String tokenSecret = "2W6d3aNWLYTLcxWCsXDoBesDsiJADh7B0iWxERa9AnU";
 
+	
+	
 	public TwitterConnectHelper() {
 		
 		
 		twitterFactory = new TwitterFactory();
+		twitterStreamFactory = new TwitterStreamFactory();
+		
+		connectToServiceSingleAcc();
 	}
 	/**
 	 * Verbindungsaufbau zu Twitter mit beliebigem Account-Token(mit PIN-Eingabe).
 	 */
-	public Twitter connectToServiceWithPIN() throws TwitterException, IOException{
+	private void connectToServiceWithPIN() throws TwitterException, IOException{
 		
 		
 		RequestToken requestToken = null;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		Twitter twitterService = twitterFactory.getInstance();
+		twitterService = twitterFactory.getInstance();
 
 		twitterService.setOAuthConsumer(consumerKey, consumerKeySecure);
 
@@ -66,22 +78,29 @@ public class TwitterConnectHelper {
 			System.err.println("Unknown input-output-error occured.");
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
-		return twitterService;
 	}
 	/**
 	 * Verbindungsaufbau zu Twitter mit hardcodet access Tokens.
 	 */
-	public Twitter connectToServiceSingleAcc() {
-		
-				
-		Twitter twitterService = twitterFactory.getInstance();
-
+	private void connectToServiceSingleAcc() {
 		AccessToken givenAccessToken = new AccessToken(token, tokenSecret);
+				
+		twitterService = twitterFactory.getInstance();
+		twitterStream = twitterStreamFactory.getInstance();
+
+		
+		
 		twitterService.setOAuthConsumer(consumerKey, consumerKeySecure);
 		twitterService.setOAuthAccessToken(givenAccessToken);
-
+		twitterStream.setOAuthConsumer(consumerKey, consumerKeySecure);
+		twitterStream.setOAuthAccessToken(givenAccessToken);
 		
-		return twitterService;
+		
+		
+		
+		//twitterStream.user();
+		// sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
+		//twitterStream.sample();
 	}
 
 	private void storeAccessToken(AccessToken accessToken) throws TwitterException {
@@ -119,5 +138,12 @@ public class TwitterConnectHelper {
 			System.err.println("Unknown twitter-error occured.");
 			java.util.logging.Logger.getLogger(TBController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
+	}
+	
+	public Twitter getTwitterService(){
+		return twitterService;
+	}
+	public TwitterStream getTwitterStream(){
+		return twitterStream;
 	}
 }
