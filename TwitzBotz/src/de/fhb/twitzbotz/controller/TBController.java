@@ -101,6 +101,10 @@ public class TBController {
 		
 		Status lastStatus = null;
 		try {
+			if (message.length()>140) {
+				System.out.println("Message("+message+") is to long. Maximum is 140(your messagelength: "+message.length()+") signs. ");
+				throw new TwitterException("Message("+message+") is to long. Maximum is 140(your messagelength: "+message.length()+") signs.");
+			}
 			lastStatus = twitterService.updateStatus(message);
 			System.out.println("Updated Status successfully to " + lastStatus.getText());
 		} catch (TwitterException ex) {

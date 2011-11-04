@@ -40,7 +40,7 @@ public class TwitzBotz {
 			
 			FileHandler fh = new FileHandler("log/log_"+new Date()+".xml");
 		
-			Logger.getLogger(TBController.class.getName()).setLevel(Level.INFO);
+			Logger.getLogger(TBController.class.getName()).setLevel(Level.SEVERE);
 			Logger.getLogger(TBController.class.getName()).addHandler(fh);
 			
 			Logger.getLogger(TwitterConnectHelper.class.getName()).setLevel(Level.SEVERE);
