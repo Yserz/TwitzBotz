@@ -25,7 +25,6 @@ public class TBController {
 	}
 	private void startStreams(){
 		//TODO Start a for-loop over the userlist(Anmerkung: nicht mehr als 6 Streams)
-		
 		streamController.startUserStream(userToListen);
 	}
 
