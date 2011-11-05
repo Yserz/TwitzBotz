@@ -28,7 +28,8 @@ Programm anpassen:
 
 Mit der "languages/DE.properties" können Sie den TwitzBotz auf Ihre Bedürfnisse anpassen.
 Tragen Sie einfach die Frage und die Antwort in folgender Form in das Dokument ein:
-(Bitte beachten Sie, dass Sie Leerzeichen mit _ ersetzen und klein schreiben müssen)
+(Bitte beachten Sie, dass Sie Leerzeichen mit _ ersetzen und klein schreiben müssen.
+Des Weiteren dürfen Antworten, inklusive "@<userToListen> ", nicht länger sein als 140 Zeichen)
 
 <frage>=<antwort>(enter)
 <frage>=<antwort>(enter)
