@@ -28,7 +28,7 @@ public class ServiceController{
 	
 	public void sendAnswerToListenedUser(Status status) {
 		String aktStatusText = "";
-		String toUser = status.getUser().getName();
+		String toUser = status.getUser().getScreenName();
 		
 		aktStatusText = status.getText().replaceAll(" ", "_").toLowerCase();
 		aktStatusText = aktStatusText.replaceAll("@"+getMyScreenName().toLowerCase()+"_", "");
