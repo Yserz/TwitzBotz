@@ -45,7 +45,6 @@ public class ServiceController{
 			statuses = twitterService.getHomeTimeline();
 
 		} catch (TwitterException ex) {
-			closeService();
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 
@@ -68,7 +67,6 @@ public class ServiceController{
 			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "User: {0}", userTimeline);
 
 		} catch (TwitterException ex) {
-			closeService();
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 		return userTimeline;
@@ -89,7 +87,6 @@ public class ServiceController{
 			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "latestStatus: {0}, \nlatestStatusRaw: {1}", new Object[]{userStatus.getText(), userStatus});
 
 		} catch (TwitterException ex) {
-			closeService();
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 		return userStatus;
@@ -107,7 +104,6 @@ public class ServiceController{
 			lastStatus = twitterService.updateStatus(message);
 			System.out.println("Updated Status successfully to " + lastStatus.getText());
 		} catch (TwitterException ex) {
-			closeService();
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 	}
@@ -120,7 +116,6 @@ public class ServiceController{
 			userID = twitterService.getId();
 			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "MyID: {0}", userID);
 		} catch (TwitterException ex) {
-			closeService();
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 		return userID;
@@ -131,7 +126,6 @@ public class ServiceController{
 		try {
 			return twitterService.getScreenName();
 		} catch (TwitterException ex) {
-			closeService();
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 		return null;
@@ -145,13 +139,9 @@ public class ServiceController{
 			userID = twitterService.showUser(user).getId();
 			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "ID: {0}", userID);
 		} catch (TwitterException ex) {
-			closeService();
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 		return userID;
-	}
-	private void closeService(){
-		twitterService.shutdown();
 	}
 	
 }

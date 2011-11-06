@@ -41,10 +41,6 @@ public class StreamController{
 		twitterStream.filter(new FilterQuery(new long[]{userToListenID}));
 	}
 	
-	private void closeStream(){
-		twitterStream.shutdown();
-	}
-	
 	private UserStreamListener userListener = new UserStreamListener(){
 
 		@Override
@@ -160,7 +156,6 @@ public class StreamController{
 		//########################
 		@Override
 		public void onException(Exception excptn) {
-			closeStream();
 			if(excptn instanceof TwitterException){
 				twitterConnectStreamHelper.handleTwitterException((TwitterException)excptn);
 			}else{
