@@ -102,6 +102,9 @@ public class TwitterConnectHelperBase {
 		} else if(404 == ex.getStatusCode()){
 			System.err.println("The URI requested is invalid or the resource requested, such as a user, does not exists.");
 			Logger.getLogger(TwitterConnectHelperBase.class.getName()).log(Level.SEVERE, null, ex);
+		} else if(420 == ex.getStatusCode()){
+			System.err.println("Too many logins with your account in a short time.");
+			Logger.getLogger(TwitterConnectHelperBase.class.getName()).log(Level.SEVERE, null, ex);
 		} else if(500 == ex.getStatusCode()){
 			System.err.println("Something is broken. Please post to the group so the Twitter team can investigate.");
 			Logger.getLogger(TwitterConnectHelperBase.class.getName()).log(Level.SEVERE, null, ex);
