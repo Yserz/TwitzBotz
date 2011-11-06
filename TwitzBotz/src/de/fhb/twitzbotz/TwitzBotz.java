@@ -52,7 +52,7 @@ public class TwitzBotz {
 			LoadPropsHelper propsHelper = new LoadPropsHelper();
 			propsHelper.loadAllProps();
 
-			//TBController tbController = new TBController(propsHelper.getFunnyTexts());
+			TBController tbController = new TBController(propsHelper.getFunnyTexts());
 
 
 		} catch (Exception e) {
