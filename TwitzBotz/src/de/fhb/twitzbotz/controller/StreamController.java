@@ -14,133 +14,120 @@ import twitter4j.UserList;
 import twitter4j.UserStreamListener;
 
 /**
+ * Der Streamcontroller verwaltet alle Funktionen rund um den Twitter-Stream.
+ * z.B.:
+ * - Empfangen von neuen Stati,
+ * - Empfangen User-Profil-Updates,
+ * - usw.
  *
  * @author Michael Koppen
  */
 public class StreamController{
 	private TwitterStream twitterStream = null;
 	private TwitterConnectStreamHelper twitterConnectStreamHelper = null;
-	private ServiceController serviceController = null;
+	private TBController parentController = null;
 	
-	private long myID;
 	
-	public StreamController(ServiceController serviceController){
-		this.serviceController = serviceController;
-		this.myID = serviceController.getMyID();
+	public StreamController(TBController parentController){
+		this.parentController = parentController;
+		
 		
 		twitterConnectStreamHelper = new TwitterConnectStreamHelper();
 		twitterStream = twitterConnectStreamHelper.connectToStream();
 		twitterStream.addListener(userListener);
 	}
 	
-	public void startUserStream(String userToListen){
-		twitterStream.filter(new FilterQuery(new long[]{serviceController.getUsersID(userToListen)}));
+	public void startUserStream(long userToListenID){
+		twitterStream.filter(new FilterQuery(new long[]{userToListenID}));
 	}
 	
-	/**
-	 * TODO sprechender name
-	 * 
-	 * @param aktStatus written by userToListen
-	 * @param lastStatus written by userToListen
-	 * @return lastStatus written by userToListen(may changed)
-	 */
-	private boolean isUserSpeakingWithMe(Status aktStatus) {
-		
-		Logger.getLogger(StreamController.class.getName()).log(Level.INFO, "aktStatusReplyID = {0}, \nMyID = {1}", new Object[]{aktStatus.getInReplyToUserId(), myID});
-		if (aktStatus.getInReplyToUserId()==myID) {
-			return true;
-
-		}else{
-			System.out.println("Noone's speaking with me :/");
-		}
-		return false;
-	}
+	
 	
 	private UserStreamListener userListener = new UserStreamListener(){
 
 		@Override
 		public void onDeletionNotice(long l, long l1) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onFriendList(long[] longs) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onFavorite(User user, User user1, Status status) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUnfavorite(User user, User user1, Status status) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onFollow(User user, User user1) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onRetweet(User user, User user1, Status status) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onDirectMessage(DirectMessage dm) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserListMemberAddition(User user, User user1, UserList ul) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserListMemberDeletion(User user, User user1, UserList ul) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserListSubscription(User user, User user1, UserList ul) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserListUnsubscription(User user, User user1, UserList ul) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserListCreation(User user, UserList ul) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserListUpdate(User user, UserList ul) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserListDeletion(User user, UserList ul) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUserProfileUpdate(User user) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onBlock(User user, User user1) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onUnblock(User user, User user1) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 		//########################
 		@Override
@@ -149,35 +136,34 @@ public class StreamController{
 			System.out.println("FromUser: "+status.getUser().getScreenName());
 			System.out.println("AktStatusraw: "+status);
 			
-			if(isUserSpeakingWithMe(status)){
-				serviceController.sendAnswerToListenedUser(status);
+			if(parentController.isUserSpeakingWithMe(status)){
+				parentController.sendAnswerToListenedUser(status);
 			}
 		}
 
 		@Override
 		public void onDeletionNotice(StatusDeletionNotice sdn) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 		//########################
 		@Override
 		public void onTrackLimitationNotice(int i) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 
 		@Override
 		public void onScrubGeo(long l, long l1) {
-			java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "Not supported yet.");
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 		//########################
 		//TODO richtiges Exceptionhandling
 		@Override
 		public void onException(Exception excptn) {
 			if(excptn instanceof TwitterException){
-				java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "is twitter exception");
-				excptn.printStackTrace();
+				twitterConnectStreamHelper.handleTwitterException((TwitterException)excptn);
 			}else{
-				java.util.logging.Logger.getLogger(StreamController.class.getName()).log(java.util.logging.Level.SEVERE, "is NO twitter exception");
-				excptn.printStackTrace();
+				
+				Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, null, excptn);
 			}
 		}
 		

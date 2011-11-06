@@ -76,7 +76,7 @@ public class TwitzBotz {
 			
 		} catch (Exception e) {
 			System.err.println("Unknown system-error occured.");
-			java.util.logging.Logger.getLogger(TwitzBotz.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
 	

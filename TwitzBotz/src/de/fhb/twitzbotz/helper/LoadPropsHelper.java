@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.twitzbotz.helper;
 
 import java.io.FileInputStream;
@@ -14,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Der LoadPropsHelper ist zuständig für das Laden von Propertie-Datein.
  *
  * @author MacYser
  */

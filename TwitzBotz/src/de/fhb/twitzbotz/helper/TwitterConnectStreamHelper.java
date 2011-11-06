@@ -4,7 +4,10 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
 /**
- *
+ * Der TwitterConnectStreamHelper ist zuständig für das anstossen des 
+ * Verbindungsaufbaus zum Twitter-Stream 
+ * und liefert ein entsprechendes Objekt zurück.
+ * 
  * @author Michael Koppen
  */
 public class TwitterConnectStreamHelper extends TwitterConnectHelperBase{

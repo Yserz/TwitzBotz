@@ -1,14 +1,20 @@
 package de.fhb.twitzbotz.controller;
 
 import de.fhb.twitzbotz.helper.TwitterConnectServiceHelper;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 /**
+ * Der ServiceController verwaltet alle Funktionen um den normalen Twitter-Service.
+ * z.B.: 
+ * - Senden von Stati,
+ * - Einzelne Anfragen von Stati(kein Stream)
+ * - Anfragen von ganzen Timelines
  *
  * @author Michael Koppen
  */
@@ -16,49 +22,19 @@ public class ServiceController{
 	private Twitter twitterService = null;
 	private TwitterConnectServiceHelper twitterConnectServiceHelper = null;
 	
-	private HashMap<String, String> funnyTexts = null;
 	
 	public ServiceController(HashMap<String, String> funnyTexts){
 		
 		twitterConnectServiceHelper = new TwitterConnectServiceHelper();
 		twitterService = twitterConnectServiceHelper.connectToService();
 		
-		this.funnyTexts = funnyTexts;
-	}
-	
-	public void sendAnswerToListenedUser(Status status) {
-		String aktStatusText = "";
-		String toUser = status.getUser().getScreenName();
-		
-		aktStatusText = status.getText().replaceAll(" ", "_").toLowerCase();
-		aktStatusText = aktStatusText.replaceAll("@"+getMyScreenName().toLowerCase()+"_", "");
-		
-
-		System.out.println("AktStatusTextAfterFormat: "+aktStatusText);
-		
-		
-		String antwort = "";
-		antwort = funnyTexts.get(aktStatusText);
-					
-		if(antwort != null){
-			if(!antwort.equals("1970")){
-
-				System.out.println("Antwort: "+"@"+toUser+" "+antwort);
-				sendMessage("@"+toUser+" "+antwort);
-			}else{
-				//the milliseconds since January 1, 1970, 00:00:00 GMT.
-				sendMessage("@"+toUser+" "+systemTime()+" (the milliseconds since January 1, 1970, 00:00:00 GMT.)");
-			}
-
-		}else{
-			System.out.println("no elequent response there :/");
-		}
 	}
 	
 	/**
 	 * Methode zum Auslesen aller aktuellen Timeline auf dem jeweiligen Twitteraccount.
 	 * TODO uebergabeparameter mit anzahl auszulesender tweets
-	 * @return TweetList
+	 * 
+	 * @return My Tweet List
 	 */
 	public List<Status> getMyTimeline() {
 		
@@ -88,7 +64,7 @@ public class ServiceController{
 		List<Status> userTimeline = null;
 		try {
 			userTimeline = twitterService.getUserTimeline(userID);
-			java.util.logging.Logger.getLogger(ServiceController.class.getName()).log(java.util.logging.Level.INFO, "User: {0}", userTimeline);
+			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "User: {0}", userTimeline);
 
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
@@ -108,7 +84,7 @@ public class ServiceController{
 		Status userStatus = null;
 		try {
 			userStatus = twitterService.showUser(userID).getStatus();
-			java.util.logging.Logger.getLogger(ServiceController.class.getName()).log(java.util.logging.Level.INFO, "latestStatus: {0}, \nlatestStatusRaw: {1}", new Object[]{userStatus.getText(), userStatus});
+			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "latestStatus: {0}, \nlatestStatusRaw: {1}", new Object[]{userStatus.getText(), userStatus});
 
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
@@ -138,7 +114,7 @@ public class ServiceController{
 		long userID = -1;
 		try {
 			userID = twitterService.getId();
-			java.util.logging.Logger.getLogger(ServiceController.class.getName()).log(java.util.logging.Level.INFO, "MyID: {0}", userID);
+			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "MyID: {0}", userID);
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
@@ -161,15 +137,12 @@ public class ServiceController{
 		long userID = -1;
 		try {
 			userID = twitterService.showUser(user).getId();
-			java.util.logging.Logger.getLogger(ServiceController.class.getName()).log(java.util.logging.Level.INFO, "ID: {0}", userID);
+			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "ID: {0}", userID);
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
 		return userID;
 	}
 	
-	private long systemTime(){
-		
-		return new Date().getTime();
-	}
+	
 }
