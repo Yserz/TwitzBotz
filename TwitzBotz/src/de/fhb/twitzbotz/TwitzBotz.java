@@ -15,7 +15,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.tools.javap.JavapPrinter;
 
 /**
  *	TwitzBotz
@@ -47,7 +46,7 @@ public class TwitzBotz {
 	}
 	public void init(String[] args){
 		try {
-			initLoggers();
+			initLoggers(initRootLogger());
 			
 			LoadPropsHelper propsHelper = new LoadPropsHelper();
 			propsHelper.loadAllProps();
@@ -60,9 +59,27 @@ public class TwitzBotz {
 			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
-	private void initLoggers() throws IOException{
-		FileHandler fh = new FileHandler("log/log_"+new Date()+".xml");
+	private void initLoggers(Logger rootLogger){
+				
+		rootLogger.setLevel(Level.SEVERE);
 
+		//TODO create attributelogger in every class
+		Logger.getLogger(TwitzBotz.class.getName()).setLevel(Level.SEVERE);
+		Logger.getLogger(TBController.class.getName()).setLevel(Level.SEVERE);
+		Logger.getLogger(StreamController.class.getName()).setLevel(Level.SEVERE);
+		Logger.getLogger(ServiceController.class.getName()).setLevel(Level.SEVERE);
+		Logger.getLogger(TwitterConnectHelperBase.class.getName()).setLevel(Level.SEVERE);
+		Logger.getLogger(TwitterConnectStreamHelper.class.getName()).setLevel(Level.SEVERE);
+		Logger.getLogger(TwitterConnectServiceHelper.class.getName()).setLevel(Level.SEVERE);
+		Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.SEVERE);
+			
+			
+	}
+	private Logger initRootLogger(){
+		Level consoleHandlerLevel	= Level.OFF;
+		Level fileHandlerLevel		= Level.SEVERE;
+		
+		//setting up ConsoleHandler
 		Logger rootLogger = Logger.getLogger("");
 
 		Handler [] handlers = rootLogger.getHandlers();
@@ -76,21 +93,28 @@ public class TwitzBotz {
 		}
 
 		if (chandler != null) {
-			chandler.setLevel(Level.OFF);
+			chandler.setLevel(consoleHandlerLevel);
+		}else{
+			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, "No ConsoleHandler there.");
 		}
 		
-		rootLogger.addHandler(fh);
-		rootLogger.setLevel(Level.SEVERE);
-
-		Logger.getLogger(TwitzBotz.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TBController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(StreamController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(ServiceController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectHelperBase.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectStreamHelper.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectServiceHelper.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.SEVERE);
-			
-			
+		//setting up FileHandler
+		FileHandler fh = null;
+		try {
+			fh = new FileHandler("log/log_"+new Date()+".xml");
+			fh.setLevel(fileHandlerLevel);
+		} catch (IOException ex) {
+			System.err.println("Cannot find the Log-Folder so I will not log anything.");
+			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (SecurityException ex) {
+			System.err.println("Cannot open/access Log-Folder so I will not log anything.");
+			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		if (fh != null) {
+			rootLogger.addHandler(fh);
+		}
+		return rootLogger;
 	}
+	
 }

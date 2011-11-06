@@ -41,7 +41,9 @@ public class StreamController{
 		twitterStream.filter(new FilterQuery(new long[]{userToListenID}));
 	}
 	
-	
+	private void closeStream(){
+		twitterStream.shutdown();
+	}
 	
 	private UserStreamListener userListener = new UserStreamListener(){
 
@@ -156,13 +158,12 @@ public class StreamController{
 			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "Not supported yet.");
 		}
 		//########################
-		//TODO richtiges Exceptionhandling
 		@Override
 		public void onException(Exception excptn) {
+			closeStream();
 			if(excptn instanceof TwitterException){
 				twitterConnectStreamHelper.handleTwitterException((TwitterException)excptn);
 			}else{
-				
 				Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, null, excptn);
 			}
 		}

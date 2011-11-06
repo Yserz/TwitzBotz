@@ -8,10 +8,11 @@ Sie können TwitzBotz Twitter-User beobachten lassen.
 Wenn der User eine Frage stellt, die TwitzBotz kennt und an ihn gerichtet ist (@TwitBot2), wird TwitzBotz antworten.
 
 #System:
-	IDE Version: NetBeans IDE 7.0.1 (Build 201107282000)
-	Java: 1.6.0_26; Java HotSpot(TM) 64-Bit Server VM 20.1-b02-384
-	System: Mac OS X version 10.6.8 running on x86_64; MacRoman; de_DE (nb)
-	Ant: Apache Ant(TM) version 1.8.2 compiled on December 20 2010
+	* IDE Version: NetBeans IDE 7.0.1 (Build 201107282000)
+	* Java: 1.6.0_26; Java HotSpot(TM) 64-Bit Server VM 20.1-b02-384
+	* System: Mac OS X version 10.6.8 running on x86_64; MacRoman; de_DE (nb)
+	* Ant: Apache Ant(TM) version 1.8.2 compiled on December 20 2010
+	* Twitter4J: Twitter4J version 2.2.5
 
 #Installation mit der Downloadsektion:
 
