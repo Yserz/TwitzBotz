@@ -63,17 +63,14 @@ public class TwitzBotz {
 	private void initLoggers() throws IOException{
 		FileHandler fh = new FileHandler("log/log_"+new Date()+".xml");
 
-		Logger rootLogger = Logger.getLogger(TwitzBotz.class.getName()).getParent();
-		
+		Logger rootLogger = Logger.getLogger("");
 
 		Handler [] handlers = rootLogger.getHandlers();
 
 		ConsoleHandler chandler = null;
 
 		for (int i = 0; i < handlers.length; i++) {
-			System.out.println("Which Handler?: "+handlers[i].getClass().getName());
 			if (handlers[i] instanceof ConsoleHandler) {
-				System.out.println("Gotta CHandler!");
 				chandler = (ConsoleHandler)handlers[i];
 			}
 		}
@@ -81,30 +78,18 @@ public class TwitzBotz {
 		if (chandler != null) {
 			chandler.setLevel(Level.OFF);
 		}
+		
+		rootLogger.addHandler(fh);
+		rootLogger.setLevel(Level.SEVERE);
 
 		Logger.getLogger(TwitzBotz.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitzBotz.class.getName()).addHandler(fh);
-		
 		Logger.getLogger(TBController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TBController.class.getName()).addHandler(fh);
-
 		Logger.getLogger(StreamController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(StreamController.class.getName()).addHandler(fh);
-
 		Logger.getLogger(ServiceController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(ServiceController.class.getName()).addHandler(fh);
-
 		Logger.getLogger(TwitterConnectHelperBase.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectHelperBase.class.getName()).addHandler(fh);
-
 		Logger.getLogger(TwitterConnectStreamHelper.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectStreamHelper.class.getName()).addHandler(fh);
-
 		Logger.getLogger(TwitterConnectServiceHelper.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectServiceHelper.class.getName()).addHandler(fh);
-
 		Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(LoadPropsHelper.class.getName()).addHandler(fh);
 			
 			
 	}
