@@ -93,11 +93,19 @@ public class TwitzBotz {
 		//setting up FileHandler
 		FileHandler fh = null;
 		try {
-			new File("log").mkdir();
 			fh = new FileHandler("log/log_" + new Date() + ".xml");
 			fh.setLevel(fileHandlerLevel);
 		} catch (IOException ex) {
-			System.err.println("Input-output-error while creating the initial log.");
+			new File("log").mkdir();
+			try {
+				fh = new FileHandler("log/log_" + new Date() + ".xml");
+				fh.setLevel(fileHandlerLevel);
+			} catch (IOException ex1) {
+				System.err.println("Input-output-error while creating the initial log.");
+				Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex1);
+			} catch (SecurityException ex1) {
+				Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex1);
+			}
 			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex);
 
 		} catch (SecurityException ex) {
