@@ -11,6 +11,7 @@ import twitter4j.TwitterBase;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.auth.AccessToken;
+import twitter4j.auth.OAuthSupport;
 import twitter4j.auth.RequestToken;
 
 /**
@@ -62,23 +63,14 @@ public class TwitterConnectHelperBase {
 		return twitter;
 	}
 	
-	protected Twitter connectToService(Twitter twitter){
+	protected TwitterBase connect(OAuthSupport twitter){
 		AccessToken givenAccessToken = new AccessToken(token, tokenSecret);
 		twitter.setOAuthConsumer(consumerKey, consumerKeySecure);
 		twitter.setOAuthAccessToken(givenAccessToken);
 		
-		openedConnections.add(twitter);
+		openedConnections.add((TwitterBase)twitter);
 		
-		return twitter;
-	}
-	protected TwitterStream connectToStream(TwitterStream twitter){
-		AccessToken givenAccessToken = new AccessToken(token, tokenSecret);
-		twitter.setOAuthConsumer(consumerKey, consumerKeySecure);
-		twitter.setOAuthAccessToken(givenAccessToken);
-		
-		openedConnections.add(twitter);
-		
-		return twitter;
+		return (TwitterBase)twitter;
 	}
 	/**
 	 * Methode zum Speichern eines AccessTokens.

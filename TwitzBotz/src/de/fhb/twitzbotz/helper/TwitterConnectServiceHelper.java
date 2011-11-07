@@ -2,6 +2,7 @@ package de.fhb.twitzbotz.helper;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.OAuthSupport;
 
 /**
  * Der TwitterConnectServiceHelper ist zuständig für das anstossen des 
@@ -19,6 +20,6 @@ public class TwitterConnectServiceHelper extends TwitterConnectHelperBase{
 	}
 	
 	public Twitter connectToService(){
-		return super.connectToService(twitterFactory.getInstance());
+		return (Twitter) super.connect((OAuthSupport)twitterFactory.getInstance());
 	}
 }
