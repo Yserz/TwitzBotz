@@ -19,6 +19,7 @@ Wenn der User eine Frage stellt, die TwitzBotz kennt und an ihn gerichtet ist (@
 	1. ZIP-Archiv entpacken.
 	2. Überprüfen ob Ordner "languages" mit Propertie-Datein vorhanden ist -> ggf. vom Repository nachladen.
 	3. Überprüfen ob Datei "twitzbotz.properties" vorhanden ist -> ggf. vom Repository nachladen.
+	4. Überprüfen ob Datei "user.txt" vorhanden ist -> ggf. vom Repository nachladen.
 
 #Installation mit dem Ant-Script:
 
@@ -28,14 +29,15 @@ Wenn der User eine Frage stellt, die TwitzBotz kennt und an ihn gerichtet ist (@
 	4. Überprüfen ob Ordner "dist/languages" mit Propertie-Dateien vorhanden ist -> ggf. vom Repository nachladen bzw. kopieren.
 	5. Überprüfen ob Datei "dist/twitzbotz.properties" vorhanden ist -> ggf. vom Repository nachladen bzw. kopieren.
 	6. Überprüfen ob Ordner "dist/log" vorhanden ist -> ggf. Ordner anlegen
-	7. Ihr ausführbares Programm liegt jetzt im Ordner "dist".
+	7. Überprüfen ob Datei "user.txt" vorhanden ist -> ggf. vom Repository nachladen bzw. kopieren.
+	8. Ihr ausführbares Programm liegt jetzt im Ordner "dist".
 
 
 #Programmstart:
 
 	1. Console öffnen
 	2. Zu "dist/TwitzBotz.jar" navigieren
-	3. Programm starten mit: java -jar "TwitzBotz.jar" <userToListen>(optional)
+	3. Programm starten mit: java -jar "TwitzBotz.jar"
 
 #Programm beenden:
 
@@ -43,11 +45,33 @@ Wenn der User eine Frage stellt, die TwitzBotz kennt und an ihn gerichtet ist (@
 
 #Programm anpassen:
 
-	Mit der "languages/DE.properties" können Sie den TwitzBotz auf Ihre Bedürfnisse anpassen.
-	Tragen Sie einfach die Frage und die Antwort in folgender Form in das Dokument ein:
-	(Bitte beachten Sie, dass Sie Leerzeichen mit _ ersetzen und klein schreiben müssen.
-	Des Weiteren dürfen Antworten, inklusive "@<userToListen> ", nicht länger als 140 Zeichen sein. Zudem müssen Sie Umlaute mit ae, ue und oe ersetzen)
-
-		<frage>=<antwort>(enter)
-		<frage>=<antwort>(enter)
-		...usw}
+	Fragen und Antworten:
+	
+		Mit der "languages/DE.properties" können Sie den TwitzBotz auf Ihre Bedürfnisse anpassen.
+		Tragen Sie einfach die Frage und die Antwort in folgender Form in das Dokument ein:
+	
+			<frage>=<antwort>(enter)
+			<frage>=<antwort>(enter)
+			...usw
+		
+		Bitte beachten Sie: 
+		* Leerzeichen mit _ ersetzen
+		* Alle Fragen klein schreiben
+		* Antworten dürfen, inklusive "@<userToListen> ", nicht länger als 140 Zeichen sein. 
+		* Umlaute mit ae, ue und oe ersetzen
+	
+	Userliste:
+		
+		Mit der Userliste (user.txt) können Sie bestimmen welche User bei Twitter beobachtet werden sollen.
+		Tragen Sie einfach die User untereinander in die Liste ein.
+		
+			<user>(enter)
+			<user>(enter)
+			...usw
+		
+		Bitte beachten Sie:
+		* Schreiben Sie die User bitte ohne @-Zeichen in die Liste
+		* Bei einer Anzahl von mehr als 6 Usern in der Liste kann es zu unvorhersehbaren Fehlern kommen.
+		
+		
+		

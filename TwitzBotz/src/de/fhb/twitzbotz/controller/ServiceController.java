@@ -31,10 +31,10 @@ public class ServiceController{
 	}
 	
 	/**
-	 * Methode zum Auslesen aller aktuellen Timeline auf dem jeweiligen Twitteraccount.
+	 * Methode zum Auslesen der aktuellen Timeline auf dem Bot-Twitteraccount.
 	 * TODO uebergabeparameter mit anzahl auszulesender tweets
 	 * 
-	 * @return My Tweet List
+	 * @return Liste von Stati
 	 */
 	public List<Status> getMyTimeline() {
 		
@@ -52,6 +52,13 @@ public class ServiceController{
 		return statuses;
 	}
 
+	/**
+	 * Methode zum Auslesen der aktuellen Timeline auf dem jeweiligen Twitteraccount.
+	 * TODO uebergabeparameter mit anzahl auszulesender tweets
+	 * 
+	 * @param user von dem die Timeline gelesen werden soll
+	 * @return Liste von Stati
+	 */
 	public List<Status> getUsersTimeline(String user) {
 		
 		
@@ -64,7 +71,6 @@ public class ServiceController{
 		List<Status> userTimeline = null;
 		try {
 			userTimeline = twitterService.getUserTimeline(userID);
-			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "User: {0}", userTimeline);
 
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
@@ -84,7 +90,9 @@ public class ServiceController{
 		Status userStatus = null;
 		try {
 			userStatus = twitterService.showUser(userID).getStatus();
-			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "latestStatus: {0}, \nlatestStatusRaw: {1}", new Object[]{userStatus.getText(), userStatus});
+			Logger.getLogger(ServiceController.class.getName()).log(Level.SEVERE, "latestStatus: {0}, \nlatestStatusRaw: {1}", 
+																				  new Object[]{userStatus.getText(), 
+																							   userStatus});
 
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
@@ -94,15 +102,15 @@ public class ServiceController{
 
 	public void sendMessage(String message) {
 		
-		
-		Status lastStatus = null;
 		try {
 			if (message.length()>140) {
-				System.out.println("Message("+message+") is to long. Maximum is 140(your messagelength: "+message.length()+") signs. ");
-				throw new TwitterException("Message("+message+") is to long. Maximum is 140(your messagelength: "+message.length()+") signs.");
+				System.out.println("Message("+message+") is to long. Maximum is "
+								   + "140(your messagelength: "+message.length()+") signs. ");
+				throw new TwitterException("Message("+message+") is to long. "
+										   + "Maximum is 140(your messagelength: "+message.length()+") signs.");
 			}
-			lastStatus = twitterService.updateStatus(message);
-			System.out.println("Updated Status successfully to " + lastStatus.getText());
+			System.out.println("Antwort: "+message);
+			twitterService.updateStatus(message);
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
@@ -114,7 +122,6 @@ public class ServiceController{
 		long userID = -1;
 		try {
 			userID = twitterService.getId();
-			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "MyID: {0}", userID);
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}
@@ -137,7 +144,6 @@ public class ServiceController{
 		long userID = -1;
 		try {
 			userID = twitterService.showUser(user).getId();
-			Logger.getLogger(ServiceController.class.getName()).log(Level.INFO, "ID: {0}", userID);
 		} catch (TwitterException ex) {
 			twitterConnectServiceHelper.handleTwitterException(ex);
 		}

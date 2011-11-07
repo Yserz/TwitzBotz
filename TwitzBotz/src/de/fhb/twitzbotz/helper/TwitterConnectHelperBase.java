@@ -32,6 +32,7 @@ public class TwitterConnectHelperBase {
 	
 	/**
 	 * Verbindungsaufbau zu Twitter mit beliebigem Account-Token(mit PIN-Eingabe).
+	 * z.Z. nicht funktionstuechtig!
 	 */
 	private Twitter connectToServiceWithPIN(Twitter twitter) throws IOException{
 		AccessToken accessToken = null;
@@ -100,7 +101,7 @@ public class TwitterConnectHelperBase {
 		}
 	}
 	/**
-	 * Methode um gebündelt Twitterexception zu behandeln und in Klartextmeldungen ausgeben zu können.
+	 * Methode um gebündelt Twitterexception zu behandeln und in Klartextmeldungen ausgeben zu koennen.
 	 * 
 	 * @param ex 
 	 */
@@ -113,8 +114,14 @@ public class TwitterConnectHelperBase {
 			closeTwitter();
 			System.err.println("Authentication credentials were missing or incorrect.");
 			Logger.getLogger(TwitterConnectHelperBase.class.getName()).log(Level.SEVERE, null, ex);
+		} else if(403 == ex.getStatusCode()){
+			System.err.println("Duplicated status.");
+			Logger.getLogger(TwitterConnectHelperBase.class.getName()).log(Level.SEVERE, null, ex);
 		} else if(404 == ex.getStatusCode()){
 			System.err.println("The URI requested is invalid or the resource requested, such as a user, does not exists.");
+			Logger.getLogger(TwitterConnectHelperBase.class.getName()).log(Level.SEVERE, null, ex);
+		} else if(406 == ex.getStatusCode()){
+			System.err.println("Request returned - invalid format is specified in the request.");
 			Logger.getLogger(TwitterConnectHelperBase.class.getName()).log(Level.SEVERE, null, ex);
 		} else if(420 == ex.getStatusCode()){
 			closeTwitter();

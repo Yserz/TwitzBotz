@@ -37,8 +37,8 @@ public class StreamController{
 		twitterStream.addListener(userListener);
 	}
 	
-	public void startUserStream(long userToListenID){
-		twitterStream.filter(new FilterQuery(new long[]{userToListenID}));
+	public void startUserStream(long []userToListenID){
+		twitterStream.filter(new FilterQuery(userToListenID));
 	}
 	
 	private UserStreamListener userListener = new UserStreamListener(){
@@ -130,9 +130,10 @@ public class StreamController{
 		//########################
 		@Override
 		public void onStatus(Status status) {
-			System.out.println("AktStatus: "+status.getText());
-			System.out.println("FromUser: "+status.getUser().getScreenName());
-			System.out.println("AktStatusraw: "+status);
+			Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "AktStatus: {0}, FromUser: {1}, AktStatusraw: {2}", 
+																				 new Object[]{status.getText(), 
+																							  status.getUser().getScreenName(), 
+																							  status});
 			
 			if(parentController.isUserSpeakingWithMe(status)){
 				parentController.sendAnswerToListenedUser(status);

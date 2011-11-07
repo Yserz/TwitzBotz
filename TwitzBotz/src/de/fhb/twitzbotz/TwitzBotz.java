@@ -28,20 +28,9 @@ import java.util.logging.Logger;
  */
 public class TwitzBotz {
 
-	/**
-	 * TwitzBotz ist ein automatischer Twitter-Client.
-	 * Sie können TwitzBotz Twitter-User beobachten lassen. 
-	 * Wenn der User eine Frage stellt, die TwitzBotz kennt und an ihn gerichtet ist (@TwitBot2), 
-	 * wird TwitzBotz antworten.
-	 * 
-	 * TODO genauere beschreibung
-	 * 
-	 * @param args first param should be the user to listen to.
-	 */
 	public static void main(String[] args) {
 		TwitzBotz app = new TwitzBotz();
 		app.init(args);
-
 
 	}
 
@@ -52,7 +41,7 @@ public class TwitzBotz {
 			LoadPropsHelper propsHelper = new LoadPropsHelper();
 			propsHelper.loadAllProps();
 
-			TBController tbController = new TBController(propsHelper.getFunnyTexts());
+			TBController tbController = new TBController(propsHelper.getUserToListen(), propsHelper.getFunnyTexts());
 
 
 		} catch (Exception e) {
