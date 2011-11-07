@@ -92,30 +92,9 @@ public class TBController {
 			}
 
 		}else{
-			//TODO change this to a propertie
-			if (aktStatusText.contains("Wer") || aktStatusText.contains("wer")) {
-				antwort = "Deine Mudda.";
-			} else if (aktStatusText.contains("Wie") || aktStatusText.contains("wie")) {
-				antwort = "Na im Handumdrehn.";
-				
-			} else if (aktStatusText.contains("Wo") || aktStatusText.contains("wo")) {
-				antwort = "Im Rechenzentrum von Google! Man ist das laut hier!";
-			} else if (aktStatusText.contains("Wann") || aktStatusText.contains("wann")) {
-				antwort = "Um 26:32 Uhr.";
-			} else if (aktStatusText.contains("Warum") || aktStatusText.contains("warum")) {
-				antwort = "Darum!";
-			} else if (aktStatusText.contains("Weshalb") || aktStatusText.contains("weshalb")) {
-				antwort = "Deshalb!";
-			} else if (aktStatusText.contains("Wieso") || aktStatusText.contains("wieso")) {
-				antwort = "Weils so is!";
-			} else {
-				System.out.println("No answer there :/");
-			}
 			
-		}
-		
-		if (antwort != null) {
-			serviceController.sendMessage("@"+toUser+" "+antwort);
+			System.out.println("No answer there :/");
+					
 		}
 	}
 	private long systemTime(){
