@@ -19,11 +19,14 @@ import twitter4j.TwitterException;
  * @author Michael Koppen
  */
 public class ServiceController{
+	private final static Logger LOGGER = Logger.getLogger(ServiceController.class.getName());
+	
 	private Twitter twitterService = null;
 	private TwitterConnectServiceHelper twitterConnectServiceHelper = null;
 	
 	
 	public ServiceController(HashMap<String, String> funnyTexts){
+		LOGGER.setLevel(Level.SEVERE);
 		
 		twitterConnectServiceHelper = new TwitterConnectServiceHelper();
 		twitterService = twitterConnectServiceHelper.connectToService();

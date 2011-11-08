@@ -1,12 +1,7 @@
 package de.fhb.twitzbotz;
 
-import de.fhb.twitzbotz.controller.ServiceController;
-import de.fhb.twitzbotz.controller.StreamController;
 import de.fhb.twitzbotz.controller.TBController;
 import de.fhb.twitzbotz.helper.LoadPropsHelper;
-import de.fhb.twitzbotz.helper.TwitterConnectHelperBase;
-import de.fhb.twitzbotz.helper.TwitterConnectServiceHelper;
-import de.fhb.twitzbotz.helper.TwitterConnectStreamHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -27,7 +22,7 @@ import java.util.logging.Logger;
  * @author Michael Koppen
  */
 public class TwitzBotz {
-
+	private final static Logger LOGGER = Logger.getLogger(TwitzBotz.class.getName());
 	public static void main(String[] args) {
 		TwitzBotz app = new TwitzBotz();
 		app.init(args);
@@ -46,23 +41,14 @@ public class TwitzBotz {
 
 		} catch (Exception e) {
 			System.err.println("Unknown system-error occured.");
-			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, e);
+			LOGGER.log(Level.SEVERE, null, e);
 		}
 	}
 
 	private void initLoggers(Logger rootLogger) {
 
 		rootLogger.setLevel(Level.SEVERE);
-
-		//TODO create attributelogger in every class
-		Logger.getLogger(TwitzBotz.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TBController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(StreamController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(ServiceController.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectHelperBase.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectStreamHelper.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(TwitterConnectServiceHelper.class.getName()).setLevel(Level.SEVERE);
-		Logger.getLogger(LoadPropsHelper.class.getName()).setLevel(Level.SEVERE);
+		LOGGER.setLevel(Level.SEVERE);
 
 
 	}
@@ -87,7 +73,7 @@ public class TwitzBotz {
 		if (chandler != null) {
 			chandler.setLevel(consoleHandlerLevel);
 		} else {
-			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, "No ConsoleHandler there.");
+			LOGGER.log(Level.SEVERE, "No ConsoleHandler there.");
 		}
 
 		//setting up FileHandler
@@ -102,15 +88,15 @@ public class TwitzBotz {
 				fh.setLevel(fileHandlerLevel);
 			} catch (IOException ex1) {
 				System.err.println("Input-output-error while creating the initial log.");
-				Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex1);
+				LOGGER.log(Level.SEVERE, null, ex1);
 			} catch (SecurityException ex1) {
-				Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex1);
+				LOGGER.log(Level.SEVERE, null, ex1);
 			}
 			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex);
 
 		} catch (SecurityException ex) {
 			System.err.println("Cannot open/access Log-Folder so I will not log anything.");
-			Logger.getLogger(TwitzBotz.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		}
 
 		if (fh != null) {

@@ -18,14 +18,15 @@ import java.util.logging.Logger;
  * @author Michael Koppen
  */
 public class LoadPropsHelper {
-
+	private final static Logger LOGGER = Logger.getLogger(LoadPropsHelper.class.getName());
+	
 	private Properties props;
 	private HashMap<String, String> funnyTexts;
 	private ArrayList<String> userToListen;
 	private String choosenLanguage;
 
 	public LoadPropsHelper() {
-
+		LOGGER.setLevel(Level.SEVERE);
 
 		props = new Properties();
 		funnyTexts = new HashMap<String, String>();

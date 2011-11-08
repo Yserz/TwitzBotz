@@ -21,6 +21,8 @@ import twitter4j.auth.RequestToken;
  * @author Michael Koppen
  */
 public class TwitterConnectHelperBase {
+	private final static Logger LOGGER = Logger.getLogger(TwitterConnectHelperBase.class.getName());
+	
 	//Keys die die App identifizieren
 	private final String consumerKey = "XofYnF58nnR1fBIwGq3dQ";
 	private final String consumerKeySecure = "XtXFcPUzhjQAoDTRQTA7jm3Pw2m3IRX1fDf3kALqBUg";
@@ -30,6 +32,11 @@ public class TwitterConnectHelperBase {
 	private final String tokenSecret = "2W6d3aNWLYTLcxWCsXDoBesDsiJADh7B0iWxERa9AnU";
 	
 	private ArrayList<TwitterBase> openedConnections = new ArrayList<TwitterBase>();
+
+	public TwitterConnectHelperBase() {
+		LOGGER.setLevel(Level.SEVERE);
+		
+	}
 	
 	/**
 	 * Verbindungsaufbau zu Twitter mit beliebigem Account-Token(mit PIN-Eingabe).

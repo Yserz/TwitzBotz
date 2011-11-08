@@ -23,12 +23,16 @@ import twitter4j.UserStreamListener;
  * @author Michael Koppen
  */
 public class StreamController{
+	private final static Logger LOGGER = Logger.getLogger(StreamController.class.getName());
+	
 	private TwitterStream twitterStream = null;
 	private TwitterConnectStreamHelper twitterConnectStreamHelper = null;
 	private TBController parentController = null;
 	
 	
 	public StreamController(TBController parentController){
+		LOGGER.setLevel(Level.SEVERE);
+		
 		this.parentController = parentController;
 		
 		

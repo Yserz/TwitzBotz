@@ -1,5 +1,7 @@
 package de.fhb.twitzbotz.helper;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuthSupport;
@@ -12,9 +14,13 @@ import twitter4j.auth.OAuthSupport;
  * @author Michael Koppen
  */
 public class TwitterConnectServiceHelper extends TwitterConnectHelperBase{
+	private final static Logger LOGGER = Logger.getLogger(TwitterConnectServiceHelper.class.getName());
+	
 	private TwitterFactory twitterFactory = null;
 	
 	public TwitterConnectServiceHelper(){
+		LOGGER.setLevel(Level.SEVERE);
+		
 		twitterFactory = new TwitterFactory();
 		
 	}

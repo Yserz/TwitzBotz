@@ -14,6 +14,8 @@ import twitter4j.Status;
  * @author Michael Koppen
  */
 public class TBController {
+	private final static Logger LOGGER = Logger.getLogger(TBController.class.getName());
+	
 	private ServiceController serviceController = null;
 	private StreamController streamController = null;
 	
@@ -22,6 +24,8 @@ public class TBController {
 	private HashMap<String, String> funnyTexts = null;
 
 	public TBController(ArrayList<String> userToListen, HashMap<String, String> funnyTexts) {
+		LOGGER.setLevel(Level.SEVERE);
+		
 		this.userToListen = userToListen;
 		this.funnyTexts = funnyTexts;
 		
