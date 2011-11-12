@@ -23,10 +23,12 @@ public class ServiceController{
 	
 	private Twitter twitterService = null;
 	private TwitterConnectServiceHelper twitterConnectServiceHelper = null;
+	private TBController parentController = null;
 	
-	
-	public ServiceController(HashMap<String, String> funnyTexts){
+	public ServiceController(TBController parentController){
 		LOGGER.setLevel(Level.SEVERE);
+		
+		this.parentController = parentController;
 		
 		twitterConnectServiceHelper = new TwitterConnectServiceHelper();
 		twitterService = twitterConnectServiceHelper.connectToService();

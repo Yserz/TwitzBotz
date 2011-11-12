@@ -23,22 +23,22 @@ public class TBController {
 	private long myID;
 	private HashMap<String, String> funnyTexts = null;
 
-	public TBController(ArrayList<String> userToListen, HashMap<String, String> funnyTexts) {
+	public TBController(HashMap<String, String> funnyTexts) {
 		LOGGER.setLevel(Level.SEVERE);
 		
 		this.userToListen = userToListen;
 		this.funnyTexts = funnyTexts;
 		
-		serviceController = new ServiceController(funnyTexts);
+		serviceController = new ServiceController(this);
 		this.myID = serviceController.getMyID();
 		streamController = new StreamController(this);
 		
 		
 		
-		startStream();
+		
 		
 	}
-	private void startStream(){
+	public void startStream(ArrayList<String> userToListen){
 		int count = 0;
 		long [] userToListenID = new long[userToListen.size()];
 		
@@ -85,8 +85,8 @@ public class TBController {
 		Logger.getLogger(StreamController.class.getName()).log(Level.SEVERE, "AktStatusTextAfterFormat: {0}", 
 																			 aktStatusText);
 		
+		antwort = getAntwort(aktStatusText);
 		
-		antwort = funnyTexts.get(aktStatusText);
 					
 		if(antwort != null){
 			if(!antwort.equals("1970")){
@@ -100,6 +100,12 @@ public class TBController {
 			System.out.println("No answer there :/");
 					
 		}
+	}
+	public String getAntwort(String frage){
+		String antwort = null;
+		antwort = funnyTexts.get(frage);
+		
+		return antwort;
 	}
 	private long systemTime(){
 		

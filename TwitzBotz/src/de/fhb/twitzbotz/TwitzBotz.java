@@ -36,8 +36,9 @@ public class TwitzBotz {
 			LoadPropsHelper propsHelper = new LoadPropsHelper();
 			propsHelper.loadAllProps();
 
-			TBController tbController = new TBController(propsHelper.getUserToListen(), propsHelper.getFunnyTexts());
+			TBController tbController = new TBController(propsHelper.getFunnyTexts());
 
+			tbController.startStream(propsHelper.getUserToListen());
 
 		} catch (Exception e) {
 			System.err.println("Unknown system-error occured.");
