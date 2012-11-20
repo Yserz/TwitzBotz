@@ -24,12 +24,12 @@ public class TwitterConnectHelperBase {
 	private final static Logger LOGGER = Logger.getLogger(TwitterConnectHelperBase.class.getName());
 	
 	//Keys die die App identifizieren
-	private final String consumerKey = "XofYnF58nnR1fBIwGq3dQ";
-	private final String consumerKeySecure = "XtXFcPUzhjQAoDTRQTA7jm3Pw2m3IRX1fDf3kALqBUg";
+	private final String consumerKey = "";
+	private final String consumerKeySecure = "";
 	
 	//Keys die den Account des Users identifizieren
-	private final String token = "403358935-CXqlVYe8nKLBm9buxU55vES9HSBdgG5fbCLfOo";
-	private final String tokenSecret = "2W6d3aNWLYTLcxWCsXDoBesDsiJADh7B0iWxERa9AnU";
+	private final String token = "";
+	private final String tokenSecret = "";
 	
 	private ArrayList<TwitterBase> openedConnections = new ArrayList<TwitterBase>();
 
